@@ -1,8 +1,10 @@
 <template>
   <div class="home">
     home
-    <p ref="par">My name is {{ name }} and my age is {{ age }}.</p>
+    <p>My name is {{ name }} and my age is {{ age }}.</p>
     <button @click="handleclick">click me</button>
+    <button @click="age++">Increase Age by 1</button>
+    <input type="text" v-model="name" id="">
   </div>
 </template>
 
@@ -13,18 +15,15 @@ import { ref } from '@vue/reactivity';
 export default {
   name: 'Home',
   setup() {
-    let name = 'Carl';
-    let age = 20;
-
-    let par = ref(null);
+    let name = ref('Carl');
+    let age = ref(20);
 
     let handleclick = () => {
-      console.log(par.value);
-      par.value.classList.add('test');
-      par.value.textContent = 'hello world!';
+      name.value = 'Karl';
+      age.value = 25;
     }
 
-    return { name, age, handleclick, par }
+    return { name, age, handleclick }
   }
 }
 </script>
