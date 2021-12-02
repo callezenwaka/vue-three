@@ -8,9 +8,13 @@
 
 <script>
 import SinglePost from "@/components/SinglePost.vue";
+import { onMounted } from '@vue/runtime-core';
 export default {
   props: ['posts'],
   components: { SinglePost },
+  // setup(props) {
+  //   onMounted(() => console.log('onMounted'));
+  // }
 }
 </script>
 

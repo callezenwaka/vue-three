@@ -2,7 +2,11 @@
   <div class="home">
     <h1>Home</h1>
     <h2>Props</h2>
-    <PostList :posts="posts" />
+    <div v-if="error">{{ error }}</div>
+    <div v-if="posts.length">
+      <PostList :posts="posts" />
+    </div>
+    <div v-else>Loading . . .</div>
   </div>
 </template>
 
@@ -17,13 +21,26 @@ export default {
     PostList
   },
   setup() {
-    const posts = ref([
-      {title: 'Welcome home to vue', body: 'Non minim nostrud duis veniam fugiat dolore occaecat eu. Cillum culpa irure elit excepteur minim. Est culpa reprehenderit anim ad aliquip nisi ea laboris aute aliqua culpa exercitation exercitation veniam.', id: 1},
-      {title: 'Enjoy coding in vue', body: 'Irure exercitation dolor mollit aliqua. Reprehenderit fugiat ex fugiat amet velit magna sunt velit commodo aliquip sit elit excepteur consequat. Ex duis eiusmod id amet incididunt qui Lorem exercitation duis ex eu qui consectetur. Enim aliqua veniam labore anim laboris in esse pariatur.', id: 2}
-    ]);
+    const posts = ref([]);
     
+    const error = ref(null);
 
-    return { posts }
+    const load = async () => {
+      try {
+        let data = await fetch('http://localhost:3000/posts');
+        if (!data.ok) {
+          throw Error('No data received!');
+        }
+        posts.value = await data.json();
+      } catch (err) {
+        error.value = err.message;
+        console.log(error.value);
+      }
+    }
+
+    load();
+
+    return { posts, error }
   }
 }
 </script>
